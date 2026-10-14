@@ -1,0 +1,434 @@
+import java.util.Scanner;
+
+// ================= CO3: PARENT CLASS =================
+class User {
+
+    // CO1: Variables and data types
+    String name;
+    int age;
+    double weight;
+
+    // CO1: Constant
+    final String APP_NAME = "Personal Fitness Tracker";
+
+    // CO3: Constructor
+    User(String name, int age, double weight) {
+        this.name = name;       // this keyword
+        this.age = age;
+        this.weight = weight;
+    }
+
+    // CO2: Method
+    void displayUser() {
+        System.out.println("\n--- USER DETAILS ---");
+        System.out.println("Name   : " + name);
+        System.out.println("Age    : " + age);
+        System.out.println("Weight : " + weight + " kg");
+    }
+}
+
+
+// ================= CO4: INTERFACE =================
+interface FitnessPlan {
+
+    // Abstract method
+    void calculateCalories(int minutes);
+}
+
+
+// ================= CO4: ABSTRACT CLASS =================
+abstract class FitnessGoal {
+
+    // Abstract method
+    abstract void showGoal();
+
+    // Normal method
+    void goalMessage() {
+        System.out.println("Keep working towards your fitness goal!");
+    }
+}
+
+
+// ================= CO3 + CO4 =================
+class FitnessTracker extends User
+        implements FitnessPlan {
+
+    int workouts;
+    double calories;
+
+    // CO2: Array
+    String[] workoutNames = {
+        "Running",
+        "Walking",
+        "Cycling",
+        "Strength Training",
+        "Swimming"
+    };
+
+    // Constructor
+    FitnessTracker(String name, int age, double weight) {
+
+        // CO3: super keyword
+        super(name, age, weight);
+
+        workouts = 0;
+        calories = 0;
+    }
+
+
+    // CO2: Method
+    void addWorkout(int minutes) {
+
+        workouts++;
+
+        calculateCalories(minutes);
+
+        System.out.println("\nWorkout added successfully!");
+    }
+
+
+    // CO4: Interface implementation
+    @Override
+    public void calculateCalories(int minutes) {
+
+        calories += minutes * 7.5;
+    }
+
+
+    // CO2: Method Overloading
+    void displayWorkout(String workout) {
+
+        System.out.println("Workout: " + workout);
+    }
+
+
+    void displayWorkout(String workout, int minutes) {
+
+        System.out.println("Workout: " + workout);
+        System.out.println("Duration: " + minutes + " minutes");
+    }
+
+
+    // CO3: Method Overriding
+    @Override
+    void displayUser() {
+
+        System.out.println("\n--- FITNESS USER ---");
+        System.out.println("Name   : " + name);
+        System.out.println("Age    : " + age);
+        System.out.println("Weight : " + weight + " kg");
+        System.out.println("Workouts: " + workouts);
+        System.out.println("Calories: " + calories + " kcal");
+    }
+
+
+    // CO2: For loop + enhanced for loop
+    void showWorkoutTypes() {
+
+        System.out.println("\n--- WORKOUT TYPES ---");
+
+        // Normal for loop
+        for (int i = 0; i < workoutNames.length; i++) {
+
+            System.out.println((i + 1) + ". " + workoutNames[i]);
+        }
+
+        System.out.println("\nUsing Enhanced For Loop:");
+
+        for (String workout : workoutNames) {
+
+            System.out.println(workout);
+        }
+    }
+
+
+    // CO2: If-else
+    void showProgress() {
+
+        System.out.println("\n--- FITNESS PROGRESS ---");
+
+        System.out.println("Total Workouts : " + workouts);
+        System.out.println("Calories Burned: " + calories + " kcal");
+
+
+        if (workouts >= 5) {
+
+            System.out.println("Goal Status: Excellent!");
+
+        } else if (workouts >= 3) {
+
+            System.out.println("Goal Status: Good Progress!");
+
+        } else {
+
+            System.out.println("Goal Status: Keep Working!");
+        }
+    }
+
+
+    // CO3: final method
+    final void showAppName() {
+
+        System.out.println("\nApplication: " + APP_NAME);
+    }
+}
+
+
+// ================= CO4: POLYMORPHISM =================
+class WeightGoal extends FitnessGoal {
+
+    double targetWeight;
+
+    WeightGoal(double targetWeight) {
+
+        this.targetWeight = targetWeight;
+    }
+
+
+    // CO4: Method overriding
+    @Override
+    void showGoal() {
+
+        System.out.println(
+            "Target Weight: " + targetWeight + " kg"
+        );
+    }
+}
+
+
+// ================= MAIN CLASS =================
+public class FitnessTrackerApp {
+
+    // CO2: Recursion
+    static int countdown(int number) {
+
+        if (number == 0) {
+
+            return 0;
+        }
+
+        System.out.print(number + " ");
+
+        return countdown(number - 1);
+    }
+
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+
+        // ================= CO1 =================
+
+        System.out.println(
+            "=========================================="
+        );
+
+        System.out.println(
+            "     PERSONAL FITNESS & WORKOUT TRACKER"
+        );
+
+        System.out.println(
+            "=========================================="
+        );
+
+
+        // CO1: Input
+        System.out.print("Enter your name: ");
+        String name = sc.nextLine();
+
+
+        System.out.print("Enter your age: ");
+        int age = sc.nextInt();
+
+
+        System.out.print("Enter your weight (kg): ");
+        double weight = sc.nextDouble();
+
+
+        // CO1: Type casting
+        int roundedWeight = (int) weight;
+
+        System.out.println(
+            "Rounded Weight: " + roundedWeight + " kg"
+        );
+
+
+        // CO3: Object creation
+        FitnessTracker user =
+            new FitnessTracker(name, age, weight);
+
+
+        int choice;
+
+
+        // ================= CO2 =================
+
+        // do-while loop
+        do {
+
+            System.out.println("\n========== MENU ==========");
+            System.out.println("1. Display User Details");
+            System.out.println("2. Add Workout");
+            System.out.println("3. View Progress");
+            System.out.println("4. Show Workout Types");
+            System.out.println("5. Show Fitness Goal");
+            System.out.println("6. Recursion Demo");
+            System.out.println("7. Exit");
+
+            System.out.print("Enter your choice: ");
+
+
+            // CO4: Exception Handling
+            try {
+
+                choice = sc.nextInt();
+
+
+                // CO2: switch-case
+                switch (choice) {
+
+
+                    // ================= CASE 1 =================
+                    case 1:
+
+                        user.displayUser();
+
+                        break;
+
+
+                    // ================= CASE 2 =================
+                    case 2:
+
+                        System.out.print(
+                            "Enter workout duration (minutes): "
+                        );
+
+                        int minutes = sc.nextInt();
+
+
+                        // CO2: if-else
+                        if (minutes > 0) {
+
+                            user.addWorkout(minutes);
+
+
+                            // Method overloading
+                            user.displayWorkout(
+                                "Fitness Workout",
+                                minutes
+                            );
+
+                        } else {
+
+                            System.out.println(
+                                "Invalid duration!"
+                            );
+                        }
+
+                        break;
+
+
+                    // ================= CASE 3 =================
+                    case 3:
+
+                        user.showProgress();
+
+                        break;
+
+
+                    // ================= CASE 4 =================
+                    case 4:
+
+                        user.showWorkoutTypes();
+
+                        break;
+
+
+                    // ================= CASE 5 =================
+                    case 5:
+
+                        System.out.print(
+                            "Enter your target weight: "
+                        );
+
+                        double target =
+                            sc.nextDouble();
+
+
+                        // Polymorphism
+                        FitnessGoal goal =
+                            new WeightGoal(target);
+
+                        goal.showGoal();
+
+                        goal.goalMessage();
+
+                        break;
+
+
+                    // ================= CASE 6 =================
+                    case 6:
+
+                        System.out.println(
+                            "Countdown using recursion:"
+                        );
+
+                        countdown(5);
+
+                        System.out.println();
+
+                        break;
+
+
+                    // ================= CASE 7 =================
+                    case 7:
+
+                        System.out.println(
+                            "Thank you for using Fitness Tracker!"
+                        );
+
+                        break;
+
+
+                    default:
+
+                        System.out.println(
+                            "Invalid choice!"
+                        );
+                }
+
+
+            } catch (Exception e) {
+
+                // CO4: Exception handling
+                System.out.println(
+                    "Invalid input! Please enter a number."
+                );
+
+                sc.nextLine();
+
+                choice = 0;
+
+
+            } finally {
+
+                // CO4: finally
+                System.out.println(
+                    "Operation completed."
+                );
+            }
+
+
+        } while (choice != 7);
+
+
+        sc.close();-
+    }
+}
+
+
+
+
+
+
